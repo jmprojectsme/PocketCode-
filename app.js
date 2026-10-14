@@ -1,3 +1,21 @@
+window.onerror = function (m) {
+  var d = document.createElement("div");
+  d.style.cssText = "position:fixed;left:0;right:0;bottom:0;background:#b00020;color:#fff;padding:8px;font-size:12px;z-index:99";
+  d.textContent = "Error: " + m;
+  document.body.appendChild(d);
+};
+function dlg(title, def, withInput, cb) {
+  var i = $("mi");
+  $("mt").textContent = title;
+  i.value = def || "";
+  i.classList.toggle("hide", !withInput);
+  $("modal").classList.remove("hide");
+  if (withInput) setTimeout(function () { i.focus(); i.select(); }, 50);
+  function close() { $("modal").classList.add("hide"); }
+  $("mc").onclick = close;
+  $("mo").onclick = function () { var v = i.value; close(); cb(withInput ? v : true); };
+  i.onkeydown = function (e) { if (e.key === "Enter") $("mo").onclick(); };
+}
 var KEY = "pocketcode-v2", OLD = "live-editor-files-v1";
 var db, proj, cur, timer;
 var $ = function (id) { return document.getElementById(id); };
@@ -39,14 +57,15 @@ function renderHome() {
     c.querySelector(".info").onclick = function () { openProject(p); };
     var r = document.createElement("button"); r.textContent = "✎";
     r.onclick = function () {
-      var nm = prompt("Rename project", p.name);
-      if (nm && nm.trim()) { p.name = nm.trim(); save(); renderHome(); }
+      dlg("Rename project", p.name, true, function (nm) {
+        if (nm && nm.trim()) { p.name = nm.trim(); save(); renderHome(); }
+      });
     };
     var d = document.createElement("button"); d.textContent = "🗑";
     d.onclick = function () {
-      if (confirm('Delete project "' + p.name + '" and all its files?')) {
+      dlg('Delete project "' + p.name + '" and all its files?', "", false, function () {
         db.projects = db.projects.filter(function (x) { return x !== p; }); save(); renderHome();
-      }
+      });
     };
     c.appendChild(r); c.appendChild(d);
     box.appendChild(c);
@@ -54,10 +73,11 @@ function renderHome() {
 }
 
 $("newProject").onclick = function () {
-  var nm = prompt("Project name", "");
-  if (!nm || !nm.trim()) return;
-  var p = mk(nm.trim(), STARTER);
-  db.projects.push(p); save(); openProject(p);
+  dlg("New project name", "", true, function (nm) {
+    if (!nm || !nm.trim()) return;
+    var p = mk(nm.trim(), STARTER);
+    db.projects.push(p); save(); openProject(p);
+  });
 };
 
 /* ---------- Editor ---------- */
@@ -148,20 +168,22 @@ function renderTree() {
     n.onclick = function () { cur = path; showFile(); $("drawer").classList.add("hide"); };
     rn.onclick = function (e) {
       e.stopPropagation();
-      var np = prompt("Rename / move file", path);
-      np = np && np.trim().replace(/^\/+/, "");
-      if (!np || np === path) return;
-      if (proj.files[np] != null) { alert("A file with that name already exists."); return; }
-      proj.files[np] = proj.files[path]; delete proj.files[path];
-      if (cur === path) cur = np;
-      touch(); renderTree(); showFile(); run();
+      dlg("Rename / move file", path, true, function (np) {
+        np = np && np.trim().replace(/^\/+/, "");
+        if (!np || np === path) return;
+        if (proj.files[np] != null) { dlg("That name already exists", "", false, function () {}); return; }
+        proj.files[np] = proj.files[path]; delete proj.files[path];
+        if (cur === path) cur = np;
+        touch(); renderTree(); showFile(); run();
+      });
     };
     del.onclick = function (e) {
       e.stopPropagation();
-      if (!confirm("Delete " + path + "?")) return;
-      delete proj.files[path];
-      if (cur === path) cur = Object.keys(proj.files)[0] || null;
-      touch(); renderTree(); showFile(); run();
+      dlg("Delete " + path + "?", "", false, function () {
+        delete proj.files[path];
+        if (cur === path) cur = Object.keys(proj.files)[0] || null;
+        touch(); renderTree(); showFile(); run();
+      });
     };
     t.appendChild(r);
   });
@@ -169,12 +191,13 @@ function renderTree() {
 $("filesBtn").onclick = function () { renderTree(); $("drawer").classList.remove("hide"); };
 $("closeDrawer").onclick = function () { $("drawer").classList.add("hide"); };
 $("addFile").onclick = function () {
-  var p = prompt("File name (use folder/name.ext for folders)", "");
-  p = p && p.trim().replace(/^\/+/, "");
-  if (!p) return;
-  if (proj.files[p] != null) { alert("That file already exists."); return; }
-  proj.files[p] = ""; cur = p; touch();
-  renderTree(); showFile(); run();
+  dlg("File name (folder/name.ext for folders)", "", true, function (p) {
+    p = p && p.trim().replace(/^\/+/, "");
+    if (!p) return;
+    if (proj.files[p] != null) { dlg("That file already exists", "", false, function () {}); return; }
+    proj.files[p] = ""; cur = p; touch();
+    renderTree(); showFile(); run();
+  });
 };
 
 /* ---------- Symbol bar + view modes ---------- */
@@ -201,4 +224,4 @@ renderHome();
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js"); });
-                           }
+    }
