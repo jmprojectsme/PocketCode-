@@ -1,5 +1,6 @@
 {
   "name": "PocketCode",
+  "id": "/PocketCode-/",
   "short_name": "PocketCode",
   "start_url": "./index.html",
   "scope": "./",
