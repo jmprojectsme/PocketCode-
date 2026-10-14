@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1c2029">
+<title>PocketCode</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="tabs" id="tabs"></div>
+    <div class="views">
+      <button data-v="code">Code</button>
+      <button data-v="split" class="on">Split</button>
+      <button data-v="view">View</button>
+    </div>
+    <button id="reset" title="Reset project">↺</button>
+  </header>
+  <main>
+    <div id="editorWrap">
+      <textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off"></textarea>
+      <div id="keys"></div>
+    </div>
+    <div id="previewWrap"><iframe id="frame" sandbox="allow-scripts allow-modals allow-forms"></iframe></div>
+  </main>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
