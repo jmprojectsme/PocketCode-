@@ -1,7 +1,7 @@
 {
   "name": "PocketCode",
-  "id": "/PocketCode-/",
   "short_name": "PocketCode",
+  "id": "/PocketCode-/?app=pocketcode",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
