@@ -2,12 +2,19 @@
 @media (prefers-color-scheme:dark){:root{--bg:#14171d;--panel:#1c2029;--text:#e6e9f0;--muted:#8a93a6;--accent:#5b8dff;--line:#2b303c;--code:#12151b}}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-#app{height:100%;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-header{display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--panel);border-bottom:1px solid var(--line)}
-.tabs{display:flex;gap:4px;flex:1;overflow-x:auto}
+.screen{height:100%;display:flex;flex-direction:column;position:relative;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+header{display:flex;align-items:center;gap:6px;padding:8px;background:var(--panel);border-bottom:1px solid var(--line)}
+h1{font-size:18px;margin:0;flex:1}
+.title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:600}
 button{font:inherit;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:8px;padding:6px 10px;font-size:13px;white-space:nowrap}
 button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .views{display:flex;gap:4px}
+#projects{flex:1;overflow:auto;padding:10px;display:flex;flex-direction:column;gap:8px}
+.card{display:flex;align-items:center;gap:8px;padding:14px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.card .info{flex:1;min-width:0}
+.card .nm{font-weight:600;font-size:15px}
+.card .sub{font-size:12px;color:var(--muted);margin-top:2px}
+.empty{text-align:center;color:var(--muted);margin-top:40px;font-size:14px}
 main{flex:1;min-height:0;display:flex;flex-direction:column}
 #editorWrap{flex:1;min-height:0;display:flex;flex-direction:column}
 #code{flex:1;width:100%;resize:none;border:0;outline:0;padding:10px;background:var(--code);color:var(--text);font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;tab-size:2;white-space:pre;overflow:auto}
@@ -15,5 +22,14 @@ main{flex:1;min-height:0;display:flex;flex-direction:column}
 #keys button{min-width:38px;font-family:ui-monospace,Menlo,monospace;font-size:15px;padding:6px 8px}
 #previewWrap{flex:1;min-height:0;border-top:2px solid var(--accent);background:#fff}
 iframe{width:100%;height:100%;border:0;background:#fff}
+#drawer{position:absolute;top:0;left:0;bottom:0;width:82%;max-width:340px;background:var(--panel);border-right:1px solid var(--line);box-shadow:4px 0 20px rgba(0,0,0,.35);display:flex;flex-direction:column;z-index:5;padding-top:env(safe-area-inset-top,0px)}
+.dhead{display:flex;align-items:center;gap:6px;padding:8px;border-bottom:1px solid var(--line)}
+.dhead strong{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#tree{flex:1;overflow:auto;padding:6px}
+.row{display:flex;align-items:center;gap:4px;padding:8px 6px;border-radius:8px;font-size:14px}
+.row.dir{color:var(--muted);font-weight:600;font-size:13px}
+.row.file{cursor:pointer}
+.row.file.cur{background:var(--accent);color:#fff}
+.row .n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .mini{padding:2px 7px;font-size:12px;background:transparent;border-color:transparent;color:inherit}
 .hide{display:none!important}
-
