@@ -11,15 +11,21 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="app">
+<div id="home" class="screen">
+  <header><h1>PocketCode</h1><button id="newProject" class="on">+ New project</button></header>
+  <div id="projects"></div>
+</div>
+
+<div id="editor" class="screen hide">
   <header>
-    <div class="tabs" id="tabs"></div>
+    <button id="back">←</button>
+    <button id="filesBtn">☰</button>
+    <div id="fname" class="title"></div>
     <div class="views">
       <button data-v="code">Code</button>
       <button data-v="split" class="on">Split</button>
       <button data-v="view">View</button>
     </div>
-    <button id="reset" title="Reset project">↺</button>
   </header>
   <main>
     <div id="editorWrap">
@@ -28,6 +34,10 @@
     </div>
     <div id="previewWrap"><iframe id="frame" sandbox="allow-scripts allow-modals allow-forms"></iframe></div>
   </main>
+  <aside id="drawer" class="hide">
+    <div class="dhead"><strong id="pname"></strong><button id="addFile" class="on">+ File</button><button id="closeDrawer">✕</button></div>
+    <div id="tree"></div>
+  </aside>
 </div>
 <script src="app.js"></script>
 </body>
